@@ -1,81 +1,45 @@
-import React, { useEffect, useState, ChangeEvent } from 'react';
-import { View, Text, Image, StyleSheet, ImageBackground, Picker } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, ImageBackground, KeyboardAvoidingView, Platform } from 'react-native';
+import { RectButton, TextInput } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
 
-
-interface IBGEUFResponse {
-    sigla: string;
-}
-
-interface IBGECityResponse {
-    nome: string;
-}
 
 const Home = () => {
     const navigation = useNavigation();
-    const [ufs, setUfs] = useState<string[]>([]);
-    const [selectedUf, setSelectedUf] = useState('0');
-    const [selectedCity, setSelectedCity] = useState('0');
-    const [cities, setCities] = useState<string[]>([]);
-
-
-    useEffect(() => {
-        axios.get<IBGEUFResponse[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados').then(response => {
-            const ufInitials = response.data.map(uf => uf.sigla);
-            setUfs(ufInitials);
-        });
-    }, []);
-
-    useEffect(() => {
-        //carregar as cidade sempre que as ufs mudar
-        if (selectedUf === '0')
-            return;
-        axios.get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`).then(response => {
-            const cityNames = response.data.map(city => city.nome);
-            setCities(cityNames);
-        });
-    }, [selectedUf]);
-
+    const [uf, setUf] = useState('');
+    const [city, setCity] = useState('');
 
     function handleNavigationToPoints() {
-        navigation.navigate('Points');
+        navigation.navigate('Points', { uf, city });
     }
 
 
     return (
-        <ImageBackground source={require('../../assets/home-background.png')} style={styles.container}
-            imageStyle={{ width: 274, height: 368 }}>
-            <View style={styles.main}>
-                <Image style={styles.image} source={require('../../assets/logo.png')} />
-                <Text style={styles.title}>Seu marketplace de coleta de resíduos</Text>
-                <Text style={styles.description}>Ajudamos pessoas a encontrarem pontos de coleta de forma
-                eficíente</Text>
-            </View>
-            <View style={styles.footer}>
-                <Picker style={styles.input} selectedValue={selectedUf} onValueChange={(itemValue, itemIndex) => setSelectedUf(itemValue)}>
-                    <Picker.Item value="0" label="Selecione uma UF" />
-                    {ufs.map(uf => (
-                        <Picker.Item key={uf} value={uf} label={uf} />
-                    ))}
-                </Picker>
-                <Picker style={styles.input} selectedValue={selectedCity} onValueChange={(itemValue, itemIndex) => setSelectedCity(itemValue)}>
-                    <Picker.Item value="0" label="Selecione uma Cidade" />
-                    {cities.map(city => (
-                        <Picker.Item key={city} value={city} label={city} />
-                    ))}
-                </Picker>
-            </View>
-            <RectButton style={styles.button} onPress={handleNavigationToPoints}>
-                <View style={styles.buttonIcon}>
-                    <Text style={{ color: '#fff' }}>>></Text>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+            <ImageBackground source={require('../../assets/home-background.png')} style={styles.container}
+                imageStyle={{ width: 274, height: 368 }}>
+                <View style={styles.main}>
+                    <Image style={styles.image} source={require('../../assets/logo.png')} />
+                    <View>
+                        <Text style={styles.title}>Seu marketplace de coleta de resíduos</Text>
+                        <Text style={styles.description}>Ajudamos pessoas a encontrarem pontos de coleta de forma
+                        eficíente</Text>
+                    </View>
                 </View>
-                <Text style={styles.buttonText}>
-                    Entrar
+                <View style={styles.footer}>
+                    <TextInput style={styles.input} placeholder="Digite uma UF" value={uf} maxLength={2} autoCapitalize="characters" autoCorrect={false} onChangeText={setUf} />
+                    <TextInput style={styles.input} placeholder="Digite uma Cidade" value={city} autoCorrect={false} onChangeText={setCity} />
+                    <RectButton style={styles.button} onPress={handleNavigationToPoints}>
+                        <View style={styles.buttonIcon}>
+                            <Text style={{ color: '#fff' }}>>></Text>
+                        </View>
+                        <Text style={styles.buttonText}>
+                            Entrar
                     </Text>
-            </RectButton>
-        </ImageBackground>
+                    </RectButton>
+                </View>
+            </ImageBackground>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -112,16 +76,18 @@ const styles = StyleSheet.create({
     footer: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'space-between',
-        marginBottom: 180
+        marginBottom: 10
     },
 
     select: {},
 
     input: {
-        height: 15,
-        paddingBottom: 30,
-        paddingHorizontal: 50,
+        height: 50,
+        backgroundColor: 'lightgreen',
+        paddingHorizontal: 30,
+        marginBottom: 8,
+        borderRadius: 8,
+        fontSize: 20
     },
 
     button: {
@@ -131,7 +97,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         overflow: 'hidden',
         alignItems: 'center',
-        marginTop: 8,
+        marginTop: 10,
     },
 
     buttonIcon: {
