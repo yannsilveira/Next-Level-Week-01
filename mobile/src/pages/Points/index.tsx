@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { SvgUri } from 'react-native-svg';
 import api from '../../services/api';
 import * as Location from 'expo-location';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface Item {
     id: number,
@@ -18,7 +18,7 @@ interface Point {
     id: number,
     name: string,
     image: string,
-    image_url: string, 
+    image_url: string,
     latitude: number,
     longitude: number,
 }
@@ -112,7 +112,7 @@ const Point = () => {
                                     onPress={() => handleNavigateTodetail(point.id)}
                                 >
                                     <View style={styles.mapMarkerContainer}>
-                                        <Image style={styles.mapMarkerImage} source={{ uri: point.image_url }} />
+                                        <Icon style={styles.mapIcon} name="recycle" color="#FFF" size={30}/>
                                         <Text style={styles.mapMarkerTitle}>{point.name}</Text>
                                     </View>
                                 </Marker>
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     },
 
     mapMarkerContainer: {
-        width: 90,
+        width: 70,
         height: 70,
         backgroundColor: '#34CB79',
         flexDirection: 'column',
@@ -181,10 +181,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    mapMarkerImage: {
-        width: 90,
-        height: 45,
-        resizeMode: 'cover',
+    mapIcon: {
+        paddingTop: 10,
+        borderBottomWidth: 2,
+        borderColor: '#fff'
     },
 
     mapMarkerTitle: {
@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontSize: 13,
         lineHeight: 23,
+        fontWeight: '800'
     },
 
     itemsContainer: {

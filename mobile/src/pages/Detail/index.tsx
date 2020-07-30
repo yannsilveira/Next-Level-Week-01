@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { RectButton } from 'react-native-gesture-handler';
 import api from '../../services/api';
 import * as MailComposer from 'expo-mail-composer'; 
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface Params {
   point_id: number;
@@ -71,9 +72,11 @@ const Detail = () => {
         </View>
         <View style={styles.footer}>
           <RectButton style={styles.buttonWhatsapp} onPress={handleWhatsApp}>
+            <Icon name="whatsapp" size={30} color="#fff"/>
             <Text style={styles.buttonText}>WhatsApp</Text>
           </RectButton>
           <RectButton style={styles.buttonEmail} onPress={handleMailCompose}>
+            <Icon name="envelope-o" size={30} color="#fff" />
             <Text style={styles.buttonText}>E-mail</Text>
           </RectButton>
         </View>
@@ -91,7 +94,7 @@ const styles = StyleSheet.create({
 
   pointImage: {
     width: '100%',
-    height: 120,
+    height: 300,
     resizeMode: 'cover',
     borderRadius: 10,
     marginTop: 32,
@@ -127,7 +130,7 @@ const styles = StyleSheet.create({
 
   footer: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    marginTop: 180,
+    marginTop: 150,
     borderColor: '#000',
     paddingVertical: 20,
     flexDirection: 'row',
@@ -158,6 +161,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     color: '#FFF',
     fontSize: 16,
+    fontWeight: '700'
   },
 });
 

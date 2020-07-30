@@ -50,7 +50,7 @@ class PointsCotroller {
 
         const serializedPoint = {
             ...point,
-            image_url: `http://100.100.1.3:3333/uploads/${point.image}`,
+            image_url: `http://100.100.1.6:3333/uploads/${point.image}`,
         }
 
         const items = await knex('items').join('point_items', 'items.id', '=', 'point_items.item_id')
