@@ -3,8 +3,11 @@ import { View, StyleSheet, TouchableOpacity, Image, Text, SafeAreaView, Linking 
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { RectButton } from 'react-native-gesture-handler';
 import api from '../../services/api';
-import * as MailComposer from 'expo-mail-composer'; 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import * as MailComposer from 'expo-mail-composer';
+import Icon from 'react-native-vector-icons/Fontisto';
+
+Icon.loadFont();
+
 
 interface Params {
   point_id: number;
@@ -60,8 +63,9 @@ const Detail = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={handleNavigateBack}>
-          <Text style={{ color: 'blue', textDecorationLine: 'underline', fontSize: 20 }}>Voltar</Text>
+        <TouchableOpacity onPress={handleNavigateBack} style={styles.backButton}>
+          <Icon name="angle-left" color="blue" size={17} />
+          <Text style={{ color: 'blue', fontSize: 20 }}>Voltar</Text>
         </TouchableOpacity>
         <Image style={styles.pointImage} source={{ uri: data.point.image_url }} />
         <Text style={styles.pointName}>{data.point.name}</Text>
@@ -72,11 +76,11 @@ const Detail = () => {
         </View>
         <View style={styles.footer}>
           <RectButton style={styles.buttonWhatsapp} onPress={handleWhatsApp}>
-            <Icon name="whatsapp" size={30} color="#fff"/>
+            <Icon name="whatsapp" size={20} color="#fff" />
             <Text style={styles.buttonText}>WhatsApp</Text>
           </RectButton>
           <RectButton style={styles.buttonEmail} onPress={handleMailCompose}>
-            <Icon name="envelope-o" size={30} color="#fff" />
+            <Icon name="email" size={25} color="#fff" />
             <Text style={styles.buttonText}>E-mail</Text>
           </RectButton>
         </View>
@@ -163,6 +167,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700'
   },
+
+  backButton: {
+    flexDirection: 'row',
+  }
 });
 
 export default Detail;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useImperativeHandle } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, ScrollView, Image, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Constants from 'expo-constants';
@@ -6,7 +6,10 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { SvgUri } from 'react-native-svg';
 import api from '../../services/api';
 import * as Location from 'expo-location';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Fontisto';
+
+Icon.loadFont();
+
 
 interface Item {
     id: number,
@@ -99,8 +102,9 @@ const Point = () => {
     return (
         <>
             <View style={styles.container}>
-                <TouchableOpacity onPress={handleNavigateBack}>
-                    <Text style={{ color: 'blue', textDecorationLine: 'underline', fontSize: 20 }}>Voltar</Text>
+                <TouchableOpacity onPress={handleNavigateBack} style={styles.backButton} >
+                    <Icon name="angle-left" color="blue" size={17} />
+                    <Text style={{ color: 'blue', fontSize: 20 }}>Voltar</Text>
                 </TouchableOpacity>
                 <Text style={styles.title}>Bem-Vindo!</Text>
                 <Text style={styles.description}>Encontre no mapa um ponto de coleta.</Text>
@@ -112,7 +116,7 @@ const Point = () => {
                                     onPress={() => handleNavigateTodetail(point.id)}
                                 >
                                     <View style={styles.mapMarkerContainer}>
-                                        <Icon style={styles.mapIcon} name="recycle" color="#FFF" size={30}/>
+                                        <Icon style={styles.mapIcon} name="recycle" color="#fff" size={25} />
                                         <Text style={styles.mapMarkerTitle}>{point.name}</Text>
                                     </View>
                                 </Marker>
@@ -182,7 +186,7 @@ const styles = StyleSheet.create({
     },
 
     mapIcon: {
-        paddingTop: 10,
+        paddingTop: 15,
         borderBottomWidth: 2,
         borderColor: '#fff'
     },
@@ -226,6 +230,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 13,
     },
+
+    backButton: {
+        flexDirection: 'row',
+    }
 });
 
 export default Point;

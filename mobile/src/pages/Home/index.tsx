@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, ImageBackground, KeyboardAvoidingView, Platform } from 'react-native';
 import { RectButton, TextInput } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+Icon.loadFont();
 
 const Home = () => {
     const navigation = useNavigation();
@@ -31,7 +33,7 @@ const Home = () => {
                     <TextInput style={styles.input} placeholder="Digite uma Cidade" value={city} autoCorrect={false} onChangeText={setCity} />
                     <RectButton style={styles.button} onPress={handleNavigationToPoints}>
                         <View style={styles.buttonIcon}>
-                            <Icon name="sign-in" size={20} color="#fff" />
+                            <Icon name="arrow-forward" size={25} color="#fff" />
                         </View>
                         <Text style={styles.buttonText}>
                             Entrar
